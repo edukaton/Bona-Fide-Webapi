@@ -3,10 +3,12 @@ package models
 import scalikejdbc._
 
 case class User(
-  userId: Int,
-  email: String,
-  password: String,
-  name: String) {
+  id: Int,
+  email: Option[String] = None,
+  password: Option[String] = None,
+  name: Option[String] = None,
+  surname: Option[String] = None,
+  role: Option[String] = None) {
 
   def save()(implicit session: DBSession = User.autoSession): User = User.save(this)(session)
 
@@ -21,23 +23,25 @@ object User extends SQLSyntaxSupport[User] {
 
   override val tableName = "user"
 
-  override val columns = Seq("user_id", "email", "password", "name")
+  override val columns = Seq("id", "email", "password", "name", "surname", "role")
 
   def apply(u: SyntaxProvider[User])(rs: WrappedResultSet): User = apply(u.resultName)(rs)
   def apply(u: ResultName[User])(rs: WrappedResultSet): User = new User(
-    userId = rs.get(u.userId),
+    id = rs.get(u.id),
     email = rs.get(u.email),
     password = rs.get(u.password),
-    name = rs.get(u.name)
+    name = rs.get(u.name),
+    surname = rs.get(u.surname),
+    role = rs.get(u.role)
   )
 
   val u = User.syntax("u")
 
   override val autoSession = AutoSession
 
-  def find(userId: Int)(implicit session: DBSession = autoSession): Option[User] = {
+  def find(id: Int)(implicit session: DBSession = autoSession): Option[User] = {
     withSQL {
-      select.from(User as u).where.eq(u.userId, userId)
+      select.from(User as u).where.eq(u.id, id)
     }.map(User(u.resultName)).single.apply()
   }
 
@@ -68,22 +72,28 @@ object User extends SQLSyntaxSupport[User] {
   }
 
   def create(
-    email: String,
-    password: String,
-    name: String)(implicit session: DBSession = autoSession): User = {
+    email: Option[String] = None,
+    password: Option[String] = None,
+    name: Option[String] = None,
+    surname: Option[String] = None,
+    role: Option[String] = None)(implicit session: DBSession = autoSession): User = {
     val generatedKey = withSQL {
       insert.into(User).namedValues(
         column.email -> email,
         column.password -> password,
-        column.name -> name
+        column.name -> name,
+        column.surname -> surname,
+        column.role -> role
       )
     }.updateAndReturnGeneratedKey.apply()
 
     User(
-      userId = generatedKey.toInt,
+      id = generatedKey.toInt,
       email = email,
       password = password,
-      name = name)
+      name = name,
+      surname = surname,
+      role = role)
   }
 
   def batchInsert(entities: Seq[User])(implicit session: DBSession = autoSession): List[Int] = {
@@ -91,32 +101,40 @@ object User extends SQLSyntaxSupport[User] {
       Seq(
         'email -> entity.email,
         'password -> entity.password,
-        'name -> entity.name))
+        'name -> entity.name,
+        'surname -> entity.surname,
+        'role -> entity.role))
     SQL("""insert into user(
       email,
       password,
-      name
+      name,
+      surname,
+      role
     ) values (
       {email},
       {password},
-      {name}
+      {name},
+      {surname},
+      {role}
     )""").batchByName(params: _*).apply[List]()
   }
 
   def save(entity: User)(implicit session: DBSession = autoSession): User = {
     withSQL {
       update(User).set(
-        column.userId -> entity.userId,
+        column.id -> entity.id,
         column.email -> entity.email,
         column.password -> entity.password,
-        column.name -> entity.name
-      ).where.eq(column.userId, entity.userId)
+        column.name -> entity.name,
+        column.surname -> entity.surname,
+        column.role -> entity.role
+      ).where.eq(column.id, entity.id)
     }.update.apply()
     entity
   }
 
   def destroy(entity: User)(implicit session: DBSession = autoSession): Int = {
-    withSQL { delete.from(User).where.eq(column.userId, entity.userId) }.update.apply()
+    withSQL { delete.from(User).where.eq(column.id, entity.id) }.update.apply()
   }
 
 }
