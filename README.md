@@ -55,3 +55,16 @@ There are several demonstration files available in this template.
 - ExampleFilter.scala
 
   A simple filter that adds a header to every response.
+  
+  ## Test
+  
+  https://fakealertapi.herokuapp.com/
+  
+  Routes:
+  GET api/user
+  POST api/user
+  GET api/user/:id
+  PUT api/user/:id
+  DELETE api/user/:id
+  
+  GET api/questions
