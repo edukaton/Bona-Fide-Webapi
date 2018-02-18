@@ -1,5 +1,18 @@
 # play-scala-fakealert-api
 
+## To test
+  
+  https://fakealertapi.herokuapp.com/
+  
+  Route list:
+  - GET api/users
+  - POST api/user
+  - GET api/user/:id
+  - PUT api/user/:id
+  - DELETE api/user/:id
+  
+  - GET api/questions
+
 [<img src="https://img.shields.io/travis/playframework/play-scala-starter-example.svg"/>](https://travis-ci.org/playframework/play-scala-starter-example)
 
 This is a starter application that shows how Play works.  Please see the documentation at <https://www.playframework.com/documentation/latest/Home> for more details.
@@ -56,15 +69,3 @@ There are several demonstration files available in this template.
 
   A simple filter that adds a header to every response.
   
-## Test
-  
-  https://fakealertapi.herokuapp.com/
-  
-  Routes:
-  -GET api/users
-  -POST api/user
-  -GET api/user/:id
-  -PUT api/user/:id
-  -DELETE api/user/:id
-  
-  -GET api/questions
