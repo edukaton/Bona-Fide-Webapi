@@ -56,7 +56,7 @@ There are several demonstration files available in this template.
 
   A simple filter that adds a header to every response.
   
-  ## Test
+## Test
   
   https://fakealertapi.herokuapp.com/
   
