@@ -61,10 +61,10 @@ There are several demonstration files available in this template.
   https://fakealertapi.herokuapp.com/
   
   Routes:
-  GET api/user
-  POST api/user
-  GET api/user/:id
-  PUT api/user/:id
-  DELETE api/user/:id
+  -GET api/users
+  -POST api/user
+  -GET api/user/:id
+  -PUT api/user/:id
+  -DELETE api/user/:id
   
-  GET api/questions
+  -GET api/questions
