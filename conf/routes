@@ -18,3 +18,5 @@ POST    /api/users                  controllers.UserController.createUser
 GET     /api/users/:id              controllers.UserController.getUser(id: Int)
 PUT     /api/users/:id              controllers.UserController.editUser(id: Int)
 DELETE  /api/users/:id              controllers.UserController.deleteUser(id: Int)
+
+GET     /api/questions              controllers.HomeController.getQuestionsByNews

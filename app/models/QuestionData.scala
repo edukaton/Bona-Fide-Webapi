@@ -11,10 +11,10 @@ case class QuestionData(var title: String, var imgSrc: String, var list: List[Ne
 
 case class NewsQuestionData(
   var name: String,
-  var question1: String,
-  var question2: String,
-  var question3: String,
-  var question4: String,
+  var answer1: String,
+  var answer2: String,
+  var answer3: String,
+  var answer4: String,
   var correct: Int
 )
 

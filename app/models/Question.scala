@@ -5,10 +5,10 @@ import scalikejdbc._
 case class Question(
   questionId: Int,
   name: Option[String] = None,
-  answer1: Option[String] = None,
-  answer2: Option[String] = None,
-  answer3: Option[String] = None,
-  answer4: Option[String] = None,
+  answerOne: Option[String] = None,
+  answerTwo: Option[String] = None,
+  answerThree: Option[String] = None,
+  answerFour: Option[String] = None,
   correct: Option[Int] = None,
   newsId: Int) {
 
@@ -25,16 +25,16 @@ object Question extends SQLSyntaxSupport[Question] {
 
   override val tableName = "question"
 
-  override val columns = Seq("question_id", "name", "answer_1", "answer_2", "answer_3", "answer_4", "correct", "news_id")
+  override val columns = Seq("question_id", "name", "answer_one", "answer_two", "answer_three", "answer_four", "correct", "news_id")
 
   def apply(q: SyntaxProvider[Question])(rs: WrappedResultSet): Question = apply(q.resultName)(rs)
   def apply(q: ResultName[Question])(rs: WrappedResultSet): Question = new Question(
     questionId = rs.get(q.questionId),
     name = rs.get(q.name),
-    answer1 = rs.get(q.answer1),
-    answer2 = rs.get(q.answer2),
-    answer3 = rs.get(q.answer3),
-    answer4 = rs.get(q.answer4),
+    answerOne = rs.get(q.answerOne),
+    answerTwo = rs.get(q.answerTwo),
+    answerThree = rs.get(q.answerThree),
+    answerFour = rs.get(q.answerFour),
     correct = rs.get(q.correct),
     newsId = rs.get(q.newsId)
   )
@@ -77,19 +77,19 @@ object Question extends SQLSyntaxSupport[Question] {
 
   def create(
     name: Option[String] = None,
-    answer1: Option[String] = None,
-    answer2: Option[String] = None,
-    answer3: Option[String] = None,
-    answer4: Option[String] = None,
+    answerOne: Option[String] = None,
+    answerTwo: Option[String] = None,
+    answerThree: Option[String] = None,
+    answerFour: Option[String] = None,
     correct: Option[Int] = None,
     newsId: Int)(implicit session: DBSession = autoSession): Question = {
     val generatedKey = withSQL {
       insert.into(Question).namedValues(
         column.name -> name,
-        column.answer1 -> answer1,
-        column.answer2 -> answer2,
-        column.answer3 -> answer3,
-        column.answer4 -> answer4,
+        column.answerOne -> answerOne,
+        column.answerTwo -> answerTwo,
+        column.answerThree -> answerThree,
+        column.answerFour -> answerFour,
         column.correct -> correct,
         column.newsId -> newsId
       )
@@ -98,10 +98,10 @@ object Question extends SQLSyntaxSupport[Question] {
     Question(
       questionId = generatedKey.toInt,
       name = name,
-      answer1 = answer1,
-      answer2 = answer2,
-      answer3 = answer3,
-      answer4 = answer4,
+      answerOne = answerOne,
+      answerTwo = answerTwo,
+      answerThree = answerThree,
+      answerFour = answerFour,
       correct = correct,
       newsId = newsId)
   }
@@ -110,26 +110,26 @@ object Question extends SQLSyntaxSupport[Question] {
     val params: Seq[Seq[(Symbol, Any)]] = entities.map(entity =>
       Seq(
         'name -> entity.name,
-        'answer1 -> entity.answer1,
-        'answer2 -> entity.answer2,
-        'answer3 -> entity.answer3,
-        'answer4 -> entity.answer4,
+        'answerOne -> entity.answerOne,
+        'answerTwo -> entity.answerTwo,
+        'answerThree -> entity.answerThree,
+        'answerFour -> entity.answerFour,
         'correct -> entity.correct,
         'newsId -> entity.newsId))
     SQL("""insert into question(
       name,
-      answer_1,
-      answer_2,
-      answer_3,
-      answer_4,
+      answer_one,
+      answer_two,
+      answer_three,
+      answer_four,
       correct,
       news_id
     ) values (
       {name},
-      {answer1},
-      {answer2},
-      {answer3},
-      {answer4},
+      {answerOne},
+      {answerTwo},
+      {answerThree},
+      {answerFour},
       {correct},
       {newsId}
     )""").batchByName(params: _*).apply[List]()
@@ -140,10 +140,10 @@ object Question extends SQLSyntaxSupport[Question] {
       update(Question).set(
         column.questionId -> entity.questionId,
         column.name -> entity.name,
-        column.answer1 -> entity.answer1,
-        column.answer2 -> entity.answer2,
-        column.answer3 -> entity.answer3,
-        column.answer4 -> entity.answer4,
+        column.answerOne -> entity.answerOne,
+        column.answerTwo -> entity.answerTwo,
+        column.answerThree -> entity.answerThree,
+        column.answerFour -> entity.answerFour,
         column.correct -> entity.correct,
         column.newsId -> entity.newsId
       ).where.eq(column.questionId, entity.questionId)
