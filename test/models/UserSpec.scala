@@ -16,7 +16,7 @@ class UserSpec extends Specification {
       maybeFound.isDefined should beTrue
     }
     "find by where clauses" in new AutoRollback {
-      val maybeFound = User.findBy(sqls.eq(u.id, 123))
+      val maybeFound = User.findBy(sqls.eq(u.userId, 123))
       maybeFound.isDefined should beTrue
     }
     "find all records" in new AutoRollback {
@@ -28,15 +28,15 @@ class UserSpec extends Specification {
       count should be_>(0L)
     }
     "find all by where clauses" in new AutoRollback {
-      val results = User.findAllBy(sqls.eq(u.id, 123))
+      val results = User.findAllBy(sqls.eq(u.userId, 123))
       results.size should be_>(0)
     }
     "count by where clauses" in new AutoRollback {
-      val count = User.countBy(sqls.eq(u.id, 123))
+      val count = User.countBy(sqls.eq(u.userId, 123))
       count should be_>(0L)
     }
     "create new record" in new AutoRollback {
-      val created = User.create()
+      val created = User.create(email = "MyString", password = "MyString", name = "MyString", role = "MyString")
       created should not beNull
     }
     "save a record" in new AutoRollback {

@@ -6,17 +6,16 @@ import play.api.libs.json.Json
   * Created by zdoonio.
   */
 case class UsersData (
-  userId: Int,
+  id: Int,
   email: String,
   password: String,
   name: String,
-  surname: String,
   role: String
 ) {
 
-  def create: User = User.create(Some(email), Some(password), Some(name), Some(surname), Some(role))
+  def create: User = User.create(email, password, name, role)
 
-  def update(id: Int): User = User(id, Some(email), Some(password), Some(name), Some(surname), Some(role))
+  def update(id: Int): User = User(id, email, password, name, role)
 }
 
 object UsersData {
@@ -26,7 +25,7 @@ object UsersData {
   implicit val usersDataWrites = Json.writes[UsersData]
 
   def fromUsers (user: User): UsersData = {
-    UsersData(user.id, user.email.getOrElse(""), user.password.getOrElse(""), user.surname.getOrElse(""), user.surname.getOrElse(""), user.role.getOrElse(""))
+    UsersData(user.userId, user.email, user.password, user.name, user.role)
   }
 
 }

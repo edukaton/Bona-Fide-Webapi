@@ -54,7 +54,7 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
       error => BadRequest(Json.obj("error" -> "Json was not correct")),
       usersData => {
         User.find(id) match {
-          case Some(user) => usersData.update(usersData.userId); NoContent
+          case Some(user) => usersData.update(usersData.id); NoContent
 
           case None => NotFound(Json.obj("error" -> "Not found!"))
         }
